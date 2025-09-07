@@ -37,7 +37,7 @@ class InvoiceManager {
             'Chiavari Chairs',
             'Banquet Circle Table',
             'Banquet Rectangular Table',
-            'Plastic Chairs',
+            'Plastic Chairs (Dozens)',
             'Plastic Tables',
             'Glass Cup',
             'Wine Cup',
