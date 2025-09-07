@@ -1,0 +1,202 @@
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    .page {
+        width: 100%;
+        margin: 0;
+        padding: 0 10px;
+    }
+    
+    .hero {
+        height: 180px;
+    }
+    
+    .hero__title {
+        left: 20px;
+        font-size: 36px;
+        top: 30%;
+    }
+    
+    .hero__brand {
+        right: 20px;
+        top: 65%;
+    }
+    
+    .brand__logo {
+        width: 80px;
+        height: 80px;
+        transform: scale(1);
+    }
+    
+    .brand__name {
+        font-size: 14px;
+    }
+    
+    .recipient {
+        margin: 20px 20px 16px;
+    }
+    
+    .recipient__name {
+        font-size: 24px;
+    }
+    
+    .items {
+        margin: 0 10px 16px;
+        overflow-x: auto;
+    }
+    
+    .items__table {
+        min-width: 500px;
+    }
+    
+    .items__table th,
+    .items__table td {
+        padding: 8px 6px;
+        font-size: 12px;
+    }
+    
+    .summary {
+        margin: 20px 20px;
+        justify-content: center;
+    }
+    
+    .summary__table {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .footer {
+        margin: 30px 20px 0;
+        flex-direction: column;
+        gap: 30px;
+        min-height: auto;
+    }
+    
+    .contact {
+        order: 2;
+    }
+    
+    .contact h3 {
+        font-size: 16px;
+        text-align: center;
+    }
+    
+    .contact li {
+        font-size: 14px;
+    }
+    
+    .gratitude {
+        order: 1;
+        align-items: center;
+        text-align: center;
+        margin-top: 0;
+    }
+    
+    .thanks {
+        font-size: 28px;
+    }
+    
+    .signature-area {
+        min-width: 180px;
+        padding: 12px;
+    }
+    
+    .signature {
+        width: 140px;
+        height: 60px;
+    }
+    
+    .print-controls {
+        bottom: 20px;
+        right: 20px;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .btn-print, .btn-close {
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    /* Form Styles for index.html */
+    .container {
+        width: 100%;
+        padding: 0 15px;
+        margin: 0;
+    }
+    
+    .form-header h1 {
+        font-size: 28px;
+    }
+    
+    .form-section {
+        margin-bottom: 25px;
+        padding: 20px 15px;
+        border-radius: 8px;
+        background: #f9f9f9;
+    }
+    
+    .form-group input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px;
+        font-size: 16px;
+    }
+    
+    .item-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 15px;
+        background: white;
+        border-radius: 6px;
+        margin-bottom: 15px;
+    }
+    
+    .form-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .btn-primary, .btn-secondary {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero__title {
+        font-size: 28px;
+        left: 15px;
+    }
+    
+    .hero__brand {
+        right: 15px;
+    }
+    
+    .brand__logo {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .brand__name {
+        font-size: 12px;
+    }
+    
+    .recipient__name {
+        font-size: 20px;
+    }
+    
+    .thanks {
+        font-size: 24px;
+    }
+    
+    .items__table {
+        min-width: 400px;
+    }
+}
