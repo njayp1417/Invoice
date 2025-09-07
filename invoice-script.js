@@ -54,7 +54,7 @@ class InvoiceRenderer {
                 },
                 invoice: {
                     title: "INVOICE",
-                    customerName: "Jessica Adagnai",
+                    customerName: "Customer Name",
                     currency: "NGN",
                     currencySymbol: "₦",
                     items: [
@@ -91,6 +91,9 @@ class InvoiceRenderer {
     renderInvoice(data) {
         // Update customer name
         document.getElementById('customerName').textContent = data.invoice.customerName;
+        
+        // Update page title with customer name
+        document.title = `Kelsa Rental Invoice - ${data.invoice.customerName}`;
 
         // Render items table
         this.renderItemsTable(data.invoice.items, data.invoice.currencySymbol);
@@ -163,45 +166,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Download PDF functionality
+
+
+// PDF Download functionality
 function downloadPDF() {
     const customerName = document.getElementById('customerName').textContent;
-    const filename = `Kelsa_Invoice_${customerName.replace(/\s+/g, '_')}.pdf`;
     
-    // Hide print controls during PDF generation
+    // Validate data exists before proceeding
+    if (!customerName || customerName.trim() === '') {
+        alert('Invoice data not loaded. Please refresh and try again.');
+        return;
+    }
+    
     const printControls = document.querySelector('.print-controls');
+    
+    // Hide controls and optimize for PDF
     printControls.style.display = 'none';
     
-    // Use browser's built-in print to PDF
-    const originalTitle = document.title;
-    document.title = filename;
+    // Set filename for PDF
+    document.title = `Kelsa_Invoice_${customerName.replace(/\s+/g, '_')}`;
     
-    // Create a temporary print stylesheet
-    const printStyle = document.createElement('style');
-    printStyle.textContent = `
+    // Add PDF-specific styles
+    const pdfStyle = document.createElement('style');
+    pdfStyle.id = 'pdf-style';
+    pdfStyle.textContent = `
         @media print {
-            @page { margin: 0.5in; }
-            body { transform: scale(0.8); transform-origin: top left; }
+            @page { size: A4; margin: 0.4in; }
+            body { transform: scale(0.9); transform-origin: top left; }
+            .page { box-shadow: none; }
         }
     `;
-    document.head.appendChild(printStyle);
+    document.head.appendChild(pdfStyle);
     
     // Trigger print dialog
-    window.print();
+    setTimeout(() => {
+        window.print();
+    }, 100);
     
-    // Cleanup
+    // Cleanup after print
     setTimeout(() => {
         printControls.style.display = 'flex';
-        document.title = originalTitle;
-        document.head.removeChild(printStyle);
+        document.title = `Kelsa Rental Invoice - ${customerName}`;
+        const style = document.getElementById('pdf-style');
+        if (style) style.remove();
     }, 1000);
 }
 
 // Print functionality
 window.addEventListener('beforeprint', () => {
-    document.title = `Invoice - ${document.getElementById('customerName').textContent}`;
+    const customerName = document.getElementById('customerName').textContent;
+    if (!document.title.includes('Kelsa_Invoice_')) {
+        document.title = `Kelsa Rental Invoice - ${customerName}`;
+    }
 });
 
 window.addEventListener('afterprint', () => {
-    document.title = 'Kelsa Rental Invoice';
+    const customerName = document.getElementById('customerName').textContent;
+    document.title = `Kelsa Rental Invoice - ${customerName}`;
 });

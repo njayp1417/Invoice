@@ -7,11 +7,63 @@
     <meta name="referrer" content="no-referrer">
     <meta name="robots" content="noindex, nofollow">
     <title>Kelsa Rental Invoice</title>
-    <link rel="stylesheet" href="invoice-styles.css">
-    <link rel="stylesheet" href="mobile-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Inter:wght@400;500;600;700&family=Georgia:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        @page { size: A4 portrait; margin: 0; }
+        * { -webkit-print-color-adjust: exact; print-color-adjust: exact; margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --navy-900: #0B1445; --gold-600: #D8A52A; --gray-050: #F2F1F5; --gray-200: #E6E4EA; --text-900: #111111; --text-invert: #FFFFFF; }
+        body { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; font-size: 16px; line-height: 1.4; color: var(--text-900); background: #FFFFFF; }
+        .page { width: 800px; margin: 0 auto; background: white; position: relative; min-height: 100vh; }
+        .hero { position: relative; height: 200px; width: 100vw; left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw; overflow: hidden; background: var(--navy-900); }
+        .hero__bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: var(--navy-900); clip-path: polygon(0 0, 100% 0, 100% 70%, 85% 100%, 0 70%); z-index: 1; }
+        .hero__gold { position: absolute; bottom: 0; left: 0; width: 100%; height: 30%; background: var(--gold-600); clip-path: polygon(0 100%, 85% 0, 100% 30%, 100% 100%); z-index: 2; }
+        .hero__title { position: absolute; left: 48px; top: 50%; transform: translateY(-50%); font-family: "Montserrat", "Poppins", "Arial Black", Arial, sans-serif; font-size: 56px; font-weight: 900; color: var(--text-invert); letter-spacing: 0.5px; text-transform: uppercase; z-index: 10; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5); }
+        .hero__brand { position: absolute; right: 48px; top: 50%; transform: translateY(-50%); text-align: right; z-index: 10; }
+        .brand__logo { width: 130px; height: 130px; border-radius: 50%; margin: 0 0 8px auto; object-fit: cover; object-position: center; transform: scale(1.1); border: 5px solid var(--gold-600); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 0 3px rgba(216, 165, 42, 0.3); }
+        .brand__name { font-family: "Montserrat", Arial, sans-serif; font-size: 18px; font-weight: 700; color: var(--text-invert); text-transform: uppercase; letter-spacing: 2px; margin-top: 5px; text-align: center; text-shadow: 2px 2px 4px rgba(0,0,0,0.4); }
+        .recipient { margin: 30px 48px 24px; text-align: center; }
+        .recipient__name { font-family: "Georgia", "Times New Roman", serif; font-size: 36px; font-weight: 700; color: var(--text-900); }
+        .items { margin: 0 48px 24px; }
+        .items__table { width: 100%; border-collapse: collapse; margin: 0 auto; }
+        .items__table thead tr { background: var(--navy-900); }
+        .items__table th { font-family: "Montserrat", Arial, sans-serif; font-size: 16px; font-weight: 700; color: var(--text-invert); text-transform: uppercase; padding: 15px; text-align: left; }
+        .items__table th:nth-child(1) { width: 58%; }
+        .items__table th:nth-child(2) { width: 12%; text-align: center; }
+        .items__table th:nth-child(3) { width: 15%; }
+        .items__table th:nth-child(4) { width: 15%; }
+        .items__table tbody tr { min-height: 42px; }
+        .items__table tbody tr:nth-child(even) { background: var(--gray-050); }
+        .items__table td { padding: 13px 15px; font-size: 16px; font-weight: 400; border-bottom: 1px solid #eee; }
+        .items__table td:nth-child(2) { text-align: center; }
+        .summary { margin: 30px 48px 40px; display: flex; justify-content: flex-end; }
+        .summary__table { width: 40%; border-collapse: collapse; }
+        .summary__table td { padding: 14px 16px; font-size: 16px; height: 48px; }
+        .summary__table td:first-child { font-weight: 600; width: 45%; }
+        .summary__table td:last-child { width: 55%; text-align: left; }
+        .row--tax { background: white; }
+        .row--balance { background: var(--gray-200); }
+        .row--total { background: var(--navy-900); color: var(--text-invert); }
+        .row--total td:first-child { font-weight: 800; text-transform: uppercase; }
+        .row--total td:last-child { font-weight: 700; }
+        .footer { margin: 48px 48px 0; position: relative; display: flex; justify-content: space-between; align-items: flex-start; min-height: 200px; }
+        .contact h3 { font-family: "Montserrat", Arial, sans-serif; font-size: 18px; font-weight: 800; text-transform: uppercase; color: var(--text-900); margin-bottom: 20px; }
+        .contact ul { list-style: none; }
+        .contact li { display: flex; align-items: flex-start; margin-bottom: 12px; font-size: 16px; font-weight: 500; }
+        .ico { width: 34px; height: 34px; background: var(--navy-900); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; margin-top: 2px; }
+        .gratitude { text-align: right; margin-top: 5px; display: flex; flex-direction: column; align-items: flex-end; gap: 15px; }
+        .thanks { font-family: "Montserrat", Arial, sans-serif; font-size: 32px; font-weight: 900; color: var(--navy-900); margin: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        .signature-area { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 200px; padding: 15px; border: 2px solid var(--navy-900); border-radius: 8px; background: rgba(11, 20, 69, 0.02); }
+        .sig { font-size: 16px; font-weight: 700; color: var(--navy-900); text-transform: uppercase; letter-spacing: 2px; margin: 0; text-align: center; }
+        .signature { width: 160px; height: 70px; object-fit: contain; filter: contrast(1.4) brightness(0.7) saturate(0); background: transparent; margin: 10px 0; border-bottom: 2px solid var(--navy-900); padding-bottom: 5px; }
+        .print-controls { position: fixed; top: 20px; right: 20px; display: flex; gap: 10px; z-index: 1000; }
+        .btn-download, .btn-print, .btn-close { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; transition: all 0.3s ease; font-size: 14px; }
+        .btn-download { background: #27ae60; color: white; }
+        .btn-print { background: var(--navy-900); color: white; }
+        .btn-close { background: var(--gold-600); color: white; }
+        @media print { .print-controls { display: none; } body { font-size: 12px; } .page { width: 100%; margin: 0; transform: scale(0.85); } .hero { width: 100%; left: 0; margin: 0; height: 160px; } }
+    </style>
 </head>
 <body>
     <div class="page">
@@ -74,7 +126,7 @@
                                 <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
                             </svg>
                         </span>
-                        09134636775
+                        09134636775 / 08025071778
                     </li>
                     <li>
                         <span class="ico mail">
