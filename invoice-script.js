@@ -5,9 +5,45 @@ class InvoiceRenderer {
     }
 
     loadInvoiceData() {
-        const data = localStorage.getItem('invoiceData');
-        if (data) {
-            const invoiceData = JSON.parse(data);
+        let invoiceData = null;
+        
+        // Try to get data from URL parameters first
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlData = urlParams.get('data');
+        
+        if (urlData) {
+            try {
+                invoiceData = JSON.parse(decodeURIComponent(urlData));
+            } catch (e) {
+                console.log('Failed to parse URL data');
+            }
+        }
+        
+        // Fallback to sessionStorage
+        if (!invoiceData) {
+            const sessionData = sessionStorage.getItem('invoiceData');
+            if (sessionData) {
+                try {
+                    invoiceData = JSON.parse(sessionData);
+                } catch (e) {
+                    console.log('Failed to parse session data');
+                }
+            }
+        }
+        
+        // Fallback to localStorage
+        if (!invoiceData) {
+            const localData = localStorage.getItem('invoiceData');
+            if (localData) {
+                try {
+                    invoiceData = JSON.parse(localData);
+                } catch (e) {
+                    console.log('Failed to parse local data');
+                }
+            }
+        }
+        
+        if (invoiceData) {
             this.renderInvoice(invoiceData);
         } else {
             // Default data for testing
@@ -127,11 +163,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// Download PDF functionality
+function downloadPDF() {
+    const customerName = document.getElementById('customerName').textContent;
+    const filename = `Kelsa_Invoice_${customerName.replace(/\s+/g, '_')}.pdf`;
+    
+    // Hide print controls during PDF generation
+    const printControls = document.querySelector('.print-controls');
+    printControls.style.display = 'none';
+    
+    // Use browser's built-in print to PDF
+    const originalTitle = document.title;
+    document.title = filename;
+    
+    // Create a temporary print stylesheet
+    const printStyle = document.createElement('style');
+    printStyle.textContent = `
+        @media print {
+            @page { margin: 0.5in; }
+            body { transform: scale(0.8); transform-origin: top left; }
+        }
+    `;
+    document.head.appendChild(printStyle);
+    
+    // Trigger print dialog
+    window.print();
+    
+    // Cleanup
+    setTimeout(() => {
+        printControls.style.display = 'flex';
+        document.title = originalTitle;
+        document.head.removeChild(printStyle);
+    }, 1000);
+}
+
 // Print functionality
 window.addEventListener('beforeprint', () => {
     document.title = `Invoice - ${document.getElementById('customerName').textContent}`;
 });
 
 window.addEventListener('afterprint', () => {
-    document.title = 'Invoice - Kelsa Events';
+    document.title = 'Kelsa Rental Invoice';
 });

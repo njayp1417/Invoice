@@ -112,7 +112,7 @@
         gap: 8px;
     }
     
-    .btn-print, .btn-close {
+    .btn-download, .btn-print, .btn-close {
         padding: 12px 16px;
         font-size: 14px;
     }

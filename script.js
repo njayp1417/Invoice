@@ -34,25 +34,28 @@ class InvoiceManager {
 
     addInitialItems() {
         const defaultItems = [
-            'Chiavari Chairs',
-            'Banquet Circle Table',
-            'Banquet Rectangular Table',
-            'Plastic Chairs (Dozens)',
-            'Plastic Tables',
-            'Glass Cup',
-            'Wine Cup',
-            'Champagne Cup',
-            'Saki Pot & Spoon',
-            'Cutleries',
-            'Carpet Rug',
-            'Breakable Plate'
+            { name: 'Chiavari Chairs', unitCost: null },
+            { name: 'Banquet Circle Table', unitCost: null },
+            { name: 'Banquet Rectangular Table', unitCost: null },
+            { name: 'Plastic Chairs (Dozens)', unitCost: 2000 },
+            { name: 'Plastic Tables', unitCost: null },
+            { name: 'Glass Cup', unitCost: null },
+            { name: 'Wine Cup', unitCost: null },
+            { name: 'Champagne Cup', unitCost: null },
+            { name: 'Saki Pot & Spoon', unitCost: null },
+            { name: 'Cutleries', unitCost: null },
+            { name: 'Carpet Rug', unitCost: null },
+            { name: 'Breakable Plate', unitCost: null }
         ];
 
         defaultItems.forEach((item, index) => {
             if (index > 0) this.addItem();
             const rows = document.querySelectorAll('.item-row');
             const lastRow = rows[rows.length - 1];
-            lastRow.querySelector('input[name="description"]').value = item;
+            lastRow.querySelector('input[name="description"]').value = item.name;
+            if (item.unitCost) {
+                lastRow.querySelector('input[name="unitCost"]').value = item.unitCost;
+            }
         });
     }
 
@@ -189,11 +192,16 @@ class InvoiceManager {
     }
 
     generateInvoice(data, isPreview = false) {
-        // Store data in localStorage for the invoice page
+        // Store data in localStorage and sessionStorage for backup
         localStorage.setItem('invoiceData', JSON.stringify(data));
+        sessionStorage.setItem('invoiceData', JSON.stringify(data));
+        
+        // Also encode data in URL as backup
+        const encodedData = encodeURIComponent(JSON.stringify(data));
+        const invoiceUrl = `invoice.html?data=${encodedData}`;
         
         // Open invoice in new window/tab
-        const invoiceWindow = window.open('invoice.html', '_blank');
+        const invoiceWindow = window.open(invoiceUrl, '_blank');
         
         if (!invoiceWindow) {
             alert('Please allow popups to generate the invoice');
